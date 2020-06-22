@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="EcsApp.LoginPage">
-    <StackLayout Spacing="20" Padding="20" VerticalOptions="center" BackgroundColor="#34493e">
+    <StackLayout Spacing="20" Padding="20" VerticalOptions="Center"  BackgroundColor="#34493e">
         <Label Text="LOGIN" FontSize="Header" TextColor="White" />
 
         <Entry Placeholder="someone@email.com" x:Name="emailEntry" TextColor="White" />
