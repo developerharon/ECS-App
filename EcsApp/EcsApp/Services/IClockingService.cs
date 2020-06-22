@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using Xamarin.Essentials;
+﻿using EcsApp.Models;
+using System.Threading.Tasks;
 
 namespace EcsApp.Services
 {
     public interface IClockingService
     {
-        Task<Location> GetEmployeeLocationAsync();
+        Task<LocationModel> GetEmployeeLocationAsync();
     }
 }
