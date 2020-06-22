@@ -3,4 +3,19 @@
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
     <application android:label="EcsApp.Android"></application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Permission to access Android Fingerprint information -->
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <!-- Permission to access Samsung Fingerprint information -->
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVERY" />
+
+    <!-- Permission need to access coarse and fine location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Hardware features needed for the manifest and android -->
+    <uses-permission android:name="android.hardware.location" android:required="false" />
+    <uses-permission android:name="android.hardware.location.gps" android:required="false" />
+    <uses-permission android:name="android.hardware.location.network" android:required="false" />
 </manifest>
