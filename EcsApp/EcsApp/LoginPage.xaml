@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EcsApp.LoginPage">
+    <StackLayout Spacing="20" Padding="20" VerticalOptions="center" BackgroundColor="#34493e">
+        <Label Text="LOGIN" FontSize="Header" TextColor="White" />
+
+        <Entry Placeholder="someone@email.com" x:Name="emailEntry" TextColor="White" />
+        <Entry Placeholder="password" IsPassword="True" x:Name="passwordEntry" TextColor="White"/>
+
+        <Button Text="Login" x:Name="buttonLogin" TextColor="White" />
+    </StackLayout>
+</ContentPage>
