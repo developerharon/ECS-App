@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Plugin.Fingerprint;
+using Plugin.CurrentActivity;
 
 namespace EcsApp.Droid
 {
@@ -19,6 +21,8 @@ namespace EcsApp.Droid
 
             base.OnCreate(savedInstanceState);
 
+            CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+            
             // Initializes Xamarin.Essentials on any Activity that is lauched.
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

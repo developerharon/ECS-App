@@ -5,12 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="EcsApp.LoginPage">
-    <StackLayout Spacing="20" Padding="20" VerticalOptions="Center"  BackgroundColor="#34493e">
-        <Label Text="LOGIN" FontSize="Header" TextColor="White" />
+    <StackLayout Spacing="20" Padding="20" VerticalOptions="Center">
+        <Label Text="LOGIN" FontSize="Header" />
 
-        <Entry Placeholder="someone@email.com" x:Name="emailEntry" TextColor="White" />
-        <Entry Placeholder="password" IsPassword="True" x:Name="passwordEntry" TextColor="White"/>
+        <Entry Placeholder="someone@email.com" x:Name="emailEntry" />
+        <Entry Placeholder="password" IsPassword="True" x:Name="passwordEntry" />
 
-        <Button Text="Login" x:Name="buttonLogin" TextColor="White" />
+        <Button Text="Login" x:Name="buttonLogin" TextColor="White" BackgroundColor="#77D065" />
     </StackLayout>
 </ContentPage>
