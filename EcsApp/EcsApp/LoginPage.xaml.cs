@@ -32,14 +32,29 @@ namespace EcsApp
                 Password = passwordEntry.Text
             };
 
-            var result = await service.GetTokenAsync(model);
-
-            if (result == null)
+            try
             {
-                await DisplayAlert("Error", "API call failed", "OK");
+                var user = await service.GetTokenAsync(model);
+                if (user == null)
+                {
+                    await DisplayAlert("Error", "An error occured when processing your request. Check your network connection and start again.", "OK");
+                }
+
+                if (user.IsAuthenticated)
+                {
+                    // Open the main page and dispaly the relevant details.
+                    // Save the tokens safely in the application so we can reuse it.
+                }
+                else
+                {
+                    labelMessage.Text = "Invalid email or password";
+                }
+            }
+            catch
+            {
+                await DisplayAlert("Error", "An error occurred", "OK");
             }
 
-            await DisplayAlert("Success", $"Token: {result.Token}, Refresh Token: {result.RefreshToken}", "OK");
         }
     }
 }

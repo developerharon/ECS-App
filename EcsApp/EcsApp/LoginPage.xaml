@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              x:Class="EcsApp.LoginPage">
     <StackLayout Spacing="20" Padding="20" VerticalOptions="Center">
-        <Label Text="PLease Login" FontSize="Title"/>
+        <Label Text="Please Login" FontSize="Title"/>
         
         <Entry Placeholder="Email" x:Name="emailEntry" />
         <Entry Placeholder="Password" IsPassword="True" x:Name="passwordEntry" />
