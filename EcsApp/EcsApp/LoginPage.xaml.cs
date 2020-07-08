@@ -1,4 +1,7 @@
-﻿using System;
+﻿using EcsApp.Models;
+using EcsApp.Models.ApiModels;
+using System;
+using System.Runtime.InteropServices;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,11 +19,27 @@ namespace EcsApp
 
         private async void OnButtonLoginClicked(object sender, EventArgs args)
         {
-            if (string.IsNullOrWhiteSpace(emailEntry.ToString()) || string.IsNullOrWhiteSpace(passwordEntry.ToString()))
+            if (string.IsNullOrWhiteSpace(emailEntry.Text) || string.IsNullOrWhiteSpace(passwordEntry.Text))
             {
-                // Print an error Message
+                labelMessage.Text = "Please fill all the required fields";
             }
-            // Login logic here
+
+            UserService service = new UserService();
+
+            LoginModel model = new LoginModel
+            {
+                Email = emailEntry.Text,
+                Password = passwordEntry.Text
+            };
+
+            var result = await service.GetTokenAsync(model);
+
+            if (result == null)
+            {
+                await DisplayAlert("Error", "API call failed", "OK");
+            }
+
+            await DisplayAlert("Success", $"Token: {result.Token}, Refresh Token: {result.RefreshToken}", "OK");
         }
     }
 }

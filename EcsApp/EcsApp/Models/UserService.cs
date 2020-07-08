@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,13 @@ namespace EcsApp.Models
         public UserService()
         {
             _client = new HttpClient();
+        }
+
+        public UserService(string authenticationToken)
+        {
+            var authenticationHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(authenticationToken));
+            _client = new HttpClient();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer Token", authenticationHeader);
         }
 
         public async Task<AuthenticationModel> GetTokenAsync(LoginModel model)
@@ -127,12 +135,12 @@ namespace EcsApp.Models
 
         public async Task<List<Clock>> GetAllClocksAsync(string email)
         {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl, string.Empty));
+            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + email, string.Empty));
 
             string json = JsonConvert.SerializeObject(email);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            //StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _client.PostAsync(uri, content);
+            HttpResponseMessage response = await _client.GetAsync(uri);
 
             if (response.IsSuccessStatusCode)
             {
