@@ -6,11 +6,13 @@
              mc:Ignorable="d"
              x:Class="EcsApp.LoginPage">
     <StackLayout Spacing="20" Padding="20" VerticalOptions="Center">
-        <Label Text="LOGIN" FontSize="Header" />
+        <Label Text="PLease Login" FontSize="Title"/>
+        
+        <Entry Placeholder="Email" x:Name="emailEntry" />
+        <Entry Placeholder="Password" IsPassword="True" x:Name="passwordEntry" />
 
-        <Entry Placeholder="someone@email.com" x:Name="emailEntry" />
-        <Entry Placeholder="password" IsPassword="True" x:Name="passwordEntry" />
+        <Label x:Name="labelMessage" />
 
-        <Button Text="Login" x:Name="buttonLogin" TextColor="White" BackgroundColor="#77D065" />
+        <Button Text="Login" TextColor="White" BackgroundColor="#77D065" x:Name="buttonLogin"/>
     </StackLayout>
 </ContentPage>
