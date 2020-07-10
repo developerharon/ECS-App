@@ -4,27 +4,25 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="EcsApp.MainPage" x:Name="mainPage">
+             x:Class="EcsApp.MainPage">
     <ContentPage.Content>
-        <StackLayout
-        <ScrollView>
-            <AbsoluteLayout BackgroundColor="White">
-                <BoxView BackgroundColor="Black" AbsoluteLayout.LayoutBounds="0,0,1,100" AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional" />
-                <Image x:Name="entryProfilePic" Source="profilepicture.jpg" BackgroundColor="Red" AbsoluteLayout.LayoutBounds=".5,60,60,60" AbsoluteLayout.LayoutFlags="XProportional" />
-                <Label Text="admin" FontAttributes="Bold" FontSize="26" TextColor="Black" HorizontalTextAlignment="Center" AbsoluteLayout.LayoutBounds=".5,140,1,40" AbsoluteLayout.LayoutFlags="XProportional,WidthProportional" />
-                <AbsoluteLayout AbsoluteLayout.LayoutBounds="0,270,1,50" AbsoluteLayout.LayoutFlags="WidthProportional" Padding="5,0,0,0">
-                    <Label FontSize="14" Text="Name" AbsoluteLayout.LayoutBounds="0,25,.25,50" AbsoluteLayout.LayoutFlags="WidthProportional" />
-                    <Label Text="Admin" x:Name="labelName" AbsoluteLayout.LayoutBounds="1,10,.75,50" AbsoluteLayout.LayoutFlags="XProportional,WidthProportional" />
-                </AbsoluteLayout>
-                <AbsoluteLayout AbsoluteLayout.LayoutBounds="0,320,1,50" AbsoluteLayout.LayoutFlags="WidthProportional" Padding="5,0,0,0">
-                    <Label FontSize="14" Text="Email" AbsoluteLayout.LayoutBounds="0,25,.25,50" AbsoluteLayout.LayoutFlags="WidthProportional" />
-                    <Label Text="admin@example.com" x:Name="labelEmail" AbsoluteLayout.LayoutBounds="1,10,.75,50" AbsoluteLayout.LayoutFlags="XProportional,WidthProportional" />
-                </AbsoluteLayout>
-                <AbsoluteLayout AbsoluteLayout.LayoutBounds="0,370,1,50" AbsoluteLayout.LayoutFlags="WidthProportional" Padding="5,0,0,0">
-                    <Label FontSize="14" Text="Ask me about:" AbsoluteLayout.LayoutBounds="0,25,.25,50" AbsoluteLayout.LayoutFlags="WidthProportional" />
-                    <Label Text="Xamarin, C#, .NET, Mono" AbsoluteLayout.LayoutBounds="1,10,.75,50" AbsoluteLayout.LayoutFlags="XProportional,WidthProportional" />
-                </AbsoluteLayout>
-            </AbsoluteLayout>
-        </ScrollView>
+        <StackLayout Spacing="0" Padding="0">
+            <Image x:Name="entryProfilePic" HeightRequest="225" WidthRequest="225" BackgroundColor="Red" HorizontalOptions="Center" VerticalOptions="Start" />
+
+            <StackLayout Orientation="Horizontal">
+                <Label FontSize="14" Text="Name" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
+                <Label x:Name="labelName" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal">
+                <Label FontSize="14" Text="Email" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
+                <Entry x:Name="labelEmail" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal">
+                <Label FontSize="14" Text="Extra" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
+                <Entry HorizontalOptions="FillAndExpand" Text="Hardworking Person" />
+            </StackLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
