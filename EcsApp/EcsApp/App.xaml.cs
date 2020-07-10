@@ -1,6 +1,5 @@
-﻿using System;
+﻿using EcsApp.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace EcsApp
 {
@@ -9,8 +8,25 @@ namespace EcsApp
         public App()
         {
             InitializeComponent();
+            LoadApplicationInitialState();
+        }
 
-            MainPage = new LoginPage();
+        private async void LoadApplicationInitialState()
+        {
+            // If there is no token saved in the phone display the login page
+            if (await Constants.GetRefreshToken() == null)
+            {
+                MainPage = new NavigationPage(new LoginPage());
+            }
+
+            // If there is a token but it has expired display the login page
+            if (await Constants.IsRefreshTokenExpired())
+            {
+                MainPage = new NavigationPage(new LoginPage());
+            }
+
+            // There is a refresh token and it has not expired, we display the main page instead
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

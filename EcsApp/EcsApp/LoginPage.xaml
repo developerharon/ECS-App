@@ -11,7 +11,7 @@
         <Entry Placeholder="Email" x:Name="emailEntry" />
         <Entry Placeholder="Password" IsPassword="True" x:Name="passwordEntry" />
 
-        <Label x:Name="labelMessage" />
+        <Label x:Name="labelMessage" TextColor="Red" />
 
         <Button Text="Login" TextColor="White" BackgroundColor="#77D065" x:Name="buttonLogin"/>
     </StackLayout>

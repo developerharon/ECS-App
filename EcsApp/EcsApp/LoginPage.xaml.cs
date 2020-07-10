@@ -42,17 +42,23 @@ namespace EcsApp
 
                 if (user.IsAuthenticated)
                 {
-                    // Open the main page and dispaly the relevant details.
-                    // Save the tokens safely in the application so we can reuse it.
+                    // Save the token's to secure storage 
+                    Constants.SaveUsersDetails(user);
+
+                    // Open the main page
+
+
+                    Navigation.InsertPageBefore(new MainPage(), this);
+                    await Navigation.PopAsync();
                 }
                 else
                 {
                     labelMessage.Text = "Invalid email or password";
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await DisplayAlert("Error", "An error occurred", "OK");
+                await DisplayAlert("Error", ex.Message, "OK");
             }
 
         }
