@@ -23,6 +23,19 @@ namespace EcsApp.Models
             }
         }
 
+        public async static Task<string> GetOuthToken()
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("token");
+                return token;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async static Task<string> GetRefreshToken()
         {
             try
@@ -53,6 +66,19 @@ namespace EcsApp.Models
             catch
             {
                 return false;
+            }
+        }
+
+        public async static Task<string> GetEmail()
+        {
+            try
+            {
+                var email = await SecureStorage.GetAsync("email");
+                return email;
+            }
+            catch
+            {
+                return null;
             }
         }
 

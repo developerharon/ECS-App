@@ -1,8 +1,6 @@
 ﻿using EcsApp.Models;
 using EcsApp.Models.ApiModels;
 using System;
-using System.Runtime.InteropServices;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,56 +9,61 @@ namespace EcsApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        private readonly UserService _userService;
         public LoginPage()
         {
             InitializeComponent();
+            _userService = new UserService();
+
+            // When button for login is clicked, trigger the following event.
             buttonLogin.Clicked += OnButtonLoginClicked;
         }
 
         private async void OnButtonLoginClicked(object sender, EventArgs args)
         {
-            if (string.IsNullOrWhiteSpace(emailEntry.Text) || string.IsNullOrWhiteSpace(passwordEntry.Text))
+            // Check if the user has filled the email and the password.
+            if (!string.IsNullOrWhiteSpace(emailEntry.Text) || !string.IsNullOrWhiteSpace(passwordEntry.Text))
+            {
+                LoginModel model = new LoginModel
+                {
+                    Email = emailEntry.Text,
+                    Password = passwordEntry.Text
+                };
+
+                try
+                {
+                    // Login the user with the backend so we can get an outh-token
+                    var user = await _userService.GetTokenAsync(model);
+
+                    if (user == null)
+                    {
+                        labelMessage.Text = "An error occured when processing your request";
+                    }
+
+                    if (user.IsAuthenticated)
+                    {
+                        // Save the token's to secure storage 
+                        Constants.RemoveAll();
+                        Constants.SaveUsersDetails(user);
+
+                        // Open the main page
+                        Navigation.InsertPageBefore(new MainPage(), this);
+                        await Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        labelMessage.Text = "Invalid email or password";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    labelMessage.Text = ex.Message;
+                }
+            }
+            else
             {
                 labelMessage.Text = "Please fill all the required fields";
             }
-
-            UserService service = new UserService();
-
-            LoginModel model = new LoginModel
-            {
-                Email = emailEntry.Text,
-                Password = passwordEntry.Text
-            };
-
-            try
-            {
-                var user = await service.GetTokenAsync(model);
-                if (user == null)
-                {
-                    await DisplayAlert("Error", "An error occured when processing your request. Check your network connection and start again.", "OK");
-                }
-
-                if (user.IsAuthenticated)
-                {
-                    // Save the token's to secure storage 
-                    Constants.SaveUsersDetails(user);
-
-                    // Open the main page
-
-
-                    Navigation.InsertPageBefore(new MainPage(), this);
-                    await Navigation.PopAsync();
-                }
-                else
-                {
-                    labelMessage.Text = "Invalid email or password";
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "OK");
-            }
-
         }
     }
 }

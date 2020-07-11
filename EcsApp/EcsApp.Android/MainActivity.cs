@@ -21,7 +21,9 @@ namespace EcsApp.Droid
 
             base.OnCreate(savedInstanceState);
 
+            // Activity Resolver for CrossFingerprint
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
             
             // Initializes Xamarin.Essentials on any Activity that is lauched.
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);

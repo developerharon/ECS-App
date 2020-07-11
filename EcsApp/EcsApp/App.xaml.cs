@@ -8,6 +8,8 @@ namespace EcsApp
         public App()
         {
             InitializeComponent();
+
+            // Based on the system's state, it determine's which form to be displayed first.
             LoadApplicationInitialState();
         }
 

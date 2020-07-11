@@ -16,13 +16,15 @@
             
             <StackLayout Orientation="Horizontal">
                 <Label FontSize="14" Text="Email" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                <Entry x:Name="labelEmail" HorizontalOptions="FillAndExpand" />
+                <Label x:Name="labelEmail" HorizontalOptions="FillAndExpand" />
             </StackLayout>
             
             <StackLayout Orientation="Horizontal">
                 <Label FontSize="14" Text="Extra" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                <Entry HorizontalOptions="FillAndExpand" Text="Hardworking Person" />
+                <Label HorizontalOptions="FillAndExpand" Text="Hardworking Person" />
             </StackLayout>
+            <Button x:Name="buttonLocation" Text="Get Location" TextColor="White"  BackgroundColor="Blue" />
+            <Button x:Name="buttonClock" Text="" TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
