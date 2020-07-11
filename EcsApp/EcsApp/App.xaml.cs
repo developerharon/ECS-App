@@ -19,16 +19,22 @@ namespace EcsApp
             if (await Constants.GetRefreshToken() == null)
             {
                 MainPage = new NavigationPage(new LoginPage());
-            }
 
-            // If there is a token but it has expired display the login page
-            if (await Constants.IsRefreshTokenExpired())
+            }
+            else
             {
-                MainPage = new NavigationPage(new LoginPage());
-            }
+                // If there is a token but it has expired display the login page
+                if (await Constants.IsRefreshTokenExpired())
+                {
+                    MainPage = new NavigationPage(new LoginPage());
+                }
+                else
+                {
+                    // There is a refresh token and it has not expired, we display the main page instead
+                    MainPage = new NavigationPage(new MainPage());
 
-            // There is a refresh token and it has not expired, we display the main page instead
-            MainPage = new NavigationPage(new MainPage());
+                }
+            }
         }
 
         protected override void OnStart()
