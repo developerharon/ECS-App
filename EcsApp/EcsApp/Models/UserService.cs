@@ -135,12 +135,12 @@ namespace EcsApp.Models
 
         public async Task<List<Clock>> GetAllClocksAsync(string email)
         {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + email, string.Empty));
+            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "email", string.Empty));
 
             string json = JsonConvert.SerializeObject(email);
-            //StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _client.GetAsync(uri);
+            HttpResponseMessage response = await _client.PostAsync(uri, content);
 
             if (response.IsSuccessStatusCode)
             {

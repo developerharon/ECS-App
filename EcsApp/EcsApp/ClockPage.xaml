@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EcsApp.ClockPage"
+             xmlns:pages="clr-namespace:EcsApp"
+                  Title="ECS - Main Page">
+    <MasterDetailPage.Master>
+        <ContentPage Title="Clock Page" BackgroundColor="#616161">
+            <!-- Slide Out Menu-->
+            <StackLayout VerticalOptions="FillAndExpand">
+                <Label Text="Options" TextColor="White" FontSize="22" VerticalOptions="Center" HorizontalOptions="Center" Margin="0, 27, 0, 5" />
+
+                <ListView x:Name="MenuListView" ItemsSource="{Binding MainMenuItems}" ItemSelected="MainMenuItem_Selected" VerticalOptions="FillAndExpand" SeparatorVisibility="None" BackgroundColor="#f5f5f5">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Title}"></TextCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Image x:Name="entryProfilePic" HeightRequest="225" WidthRequest="225" BackgroundColor="Red" HorizontalOptions="Center" VerticalOptions="Start" />
+
+                <StackLayout Orientation="Horizontal">
+                    <Label FontSize="14" Text="Name" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
+                    <Label x:Name="labelName" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label FontSize="14" Text="Email" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
+                    <Label x:Name="labelEmail" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label FontSize="14" Text="Extra" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
+                    <Label HorizontalOptions="FillAndExpand" Text="Hardworking Person" />
+                </StackLayout>
+                <Button x:Name="buttonLocation" Text="Get Location" TextColor="White"  BackgroundColor="Blue" />
+                <Button x:Name="buttonClock" Text="" TextColor="White" />
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

@@ -2,6 +2,9 @@
 using EcsApp.Models.ApiModels;
 using Plugin.Fingerprint;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -9,13 +12,28 @@ using Xamarin.Forms.Xaml;
 
 namespace EcsApp
 {
+    public
+        class MainMenuItem
+    {
+        public string Title { get; set; }
+    }
+
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : ContentPage
+    public partial class ClockPage : MasterDetailPage
     {
         private UserService _userService;
+        public List<MainMenuItem> MainMenuItems { get; set; }
 
-        public MainPage()
+        public ClockPage()
         {
+            BindingContext = this;
+
+            MainMenuItems = new List<MainMenuItem>()
+            {
+                new MainMenuItem() { Title = "List All Clocks" },
+                new MainMenuItem() { Title = "Logout"}
+            };
+
             InitializeComponent();
             LoadUsersInformation();
             buttonClock.Clicked += OnButtonClockClicked;
@@ -51,7 +69,7 @@ namespace EcsApp
                 // Updates the form with the new values.
                 labelName.Text = user.Name;
                 labelEmail.Text = user.Email;
-                entryProfilePic.Source = user.ProfilePicUrl;
+                //entryProfilePic.Source = String.Format("data:image/jpg;base64 ,{0}", Convert.ToBase64String(user.ProfilePic));
 
                 // Get application state and use to determine button clock
                 try
@@ -76,6 +94,34 @@ namespace EcsApp
                     await DisplayAlert("Error", ex.Message, "OK");
                 }
 
+            }
+            else
+            {
+                Navigation.InsertPageBefore(new LoginPage(), this);
+                await Navigation.PopAsync();
+            }
+        }
+
+        public async void MainMenuItem_Selected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = e.SelectedItem as MainMenuItem;
+
+            if (item != null)
+            {
+                if (item.Title.Equals("List All Clocks"))
+                {
+                    Navigation.InsertPageBefore(new ListClocks(), this);
+                    await Navigation.PopAsync();
+                }
+                else if (item.Title.Equals("Logout"))
+                {
+                    // Put Logout Logic Here
+                    Navigation.InsertPageBefore(new LoginPage(), this);
+                    await Navigation.PopAsync();
+                }
+
+                MenuListView.SelectedItem = null;
+                IsPresented = false;
             }
         }
 

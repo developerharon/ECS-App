@@ -10,7 +10,8 @@ namespace EcsApp
             InitializeComponent();
 
             // Based on the system's state, it determine's which form to be displayed first.
-            LoadApplicationInitialState();
+            MainPage = new NavigationPage(new ClockPage());
+            //LoadApplicationInitialState();
         }
 
         private async void LoadApplicationInitialState()
