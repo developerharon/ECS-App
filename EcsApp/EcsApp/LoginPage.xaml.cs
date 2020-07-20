@@ -47,7 +47,7 @@ namespace EcsApp
                         Constants.SaveUsersDetails(user);
 
                         // Open the main page
-                        Navigation.InsertPageBefore(new MainPage(), this);
+                        Navigation.InsertPageBefore(new ClockPage(), this);
                         await Navigation.PopAsync();
                     }
                     else

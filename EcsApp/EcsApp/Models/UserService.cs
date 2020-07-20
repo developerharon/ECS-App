@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -61,7 +62,7 @@ namespace EcsApp.Models
             return null;
         }
 
-        public async Task<string> RevokeToken(string refreshToken)
+        public async Task<object> RevokeToken(string refreshToken)
         {
             Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "revoke-token", string.Empty));
 
@@ -73,7 +74,7 @@ namespace EcsApp.Models
             if (response.IsSuccessStatusCode)
             {
                 string responseContent = await response.Content.ReadAsStringAsync();
-                string responseModel = JsonConvert.DeserializeObject<string>(responseContent);
+                object responseModel = JsonConvert.DeserializeObject<object>(responseContent);
                 return responseModel;
             }
             return null;
@@ -147,6 +148,24 @@ namespace EcsApp.Models
                 string responseContent = await response.Content.ReadAsStringAsync();
                 List<Clock> responseModel = JsonConvert.DeserializeObject<List<Clock>>(responseContent);
                 return responseModel;
+            }
+            return null;
+        }
+
+        public async Task<string> GetProfilePicAsync(string email)
+        {
+            Uri uri = new Uri(string.Format(Constants.EcsApiUrl + "profile-picture", string.Empty));
+
+            string json = JsonConvert.SerializeObject(email);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _client.PostAsync(uri, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                byte[] responseContent = await response.Content.ReadAsByteArrayAsync();
+                string result = Convert.ToBase64String(responseContent);
+                return result;
             }
             return null;
         }

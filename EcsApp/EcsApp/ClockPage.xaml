@@ -26,22 +26,20 @@
     <MasterDetailPage.Detail>
         <ContentPage>
             <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                <Image x:Name="entryProfilePic" HeightRequest="225" WidthRequest="225" BackgroundColor="Red" HorizontalOptions="Center" VerticalOptions="Start" />
+                <StackLayout Orientation="Horizontal" Padding="10, 20, 10, 20" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image x:Name="entryProfilePic" HeightRequest="225" WidthRequest="225" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="True"/>
+                </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" Padding="10, 0, 10, 0">
                     <Label FontSize="14" Text="Name" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Label x:Name="labelName" HorizontalOptions="FillAndExpand" />
+                    <Label x:Name="labelName" HorizontalOptions="Fill" />
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" Padding="10, 20, 10, 20">
                     <Label FontSize="14" Text="Email" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Label x:Name="labelEmail" HorizontalOptions="FillAndExpand" />
+                    <Label x:Name="labelEmail" HorizontalOptions="Fill" />
                 </StackLayout>
-
-                <StackLayout Orientation="Horizontal">
-                    <Label FontSize="14" Text="Extra" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Label HorizontalOptions="FillAndExpand" Text="Hardworking Person" />
-                </StackLayout>
+                
                 <Button x:Name="buttonLocation" Text="Get Location" TextColor="White"  BackgroundColor="Blue" />
                 <Button x:Name="buttonClock" Text="" TextColor="White" />
             </StackLayout>

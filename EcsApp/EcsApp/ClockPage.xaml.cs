@@ -3,11 +3,15 @@ using EcsApp.Models.ApiModels;
 using Plugin.Fingerprint;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace EcsApp
@@ -69,11 +73,14 @@ namespace EcsApp
                 // Updates the form with the new values.
                 labelName.Text = user.Name;
                 labelEmail.Text = user.Email;
-                //entryProfilePic.Source = String.Format("data:image/jpg;base64 ,{0}", Convert.ToBase64String(user.ProfilePic));
 
                 // Get application state and use to determine button clock
                 try
                 {
+                    string profileAsBase64String = await _userService.GetProfilePicAsync(user.Email);
+                    byte[] Base64Stream = Convert.FromBase64String(profileAsBase64String);
+                    entryProfilePic.Source = ImageSource.FromStream(() => new MemoryStream(Base64Stream.ToArray()));
+
                     ClockResponseModel applicationState = await _userService.GetApplicationState(user.Email);
                     if (applicationState != null && applicationState.Succeeded)
                     {
@@ -110,12 +117,15 @@ namespace EcsApp
             {
                 if (item.Title.Equals("List All Clocks"))
                 {
-                    Navigation.InsertPageBefore(new ListClocks(), this);
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new ListClocks());
                 }
                 else if (item.Title.Equals("Logout"))
                 {
-                    // Put Logout Logic Here
+                    if (await Constants.GetRefreshToken() != null)
+                    {
+                        await _userService.RevokeToken(await Constants.GetRefreshToken());
+                        Constants.RemoveAll();
+                    }
                     Navigation.InsertPageBefore(new LoginPage(), this);
                     await Navigation.PopAsync();
                 }
@@ -154,10 +164,6 @@ namespace EcsApp
             if (location != null)
             {
                 await DisplayAlert("Success", $"User's Location; Latitude: {location.Latitude}; Longitude: {location.Longitude}", "OK");
-            }
-            else
-            {
-                await DisplayAlert("Fail", "Location Not Found", "OK");
             }
         }
 

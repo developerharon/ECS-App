@@ -10,8 +10,7 @@ namespace EcsApp
             InitializeComponent();
 
             // Based on the system's state, it determine's which form to be displayed first.
-            MainPage = new NavigationPage(new ClockPage());
-            //LoadApplicationInitialState();
+            LoadApplicationInitialState();
         }
 
         private async void LoadApplicationInitialState()
@@ -32,7 +31,7 @@ namespace EcsApp
                 else
                 {
                     // There is a refresh token and it has not expired, we display the main page instead
-                    MainPage = new NavigationPage(new MainPage());
+                    MainPage = new NavigationPage(new ClockPage());
 
                 }
             }
