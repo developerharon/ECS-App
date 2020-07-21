@@ -1,5 +1,6 @@
 ﻿using EcsApp.Models;
 using EcsApp.Models.ApiModels;
+using Newtonsoft.Json;
 using Plugin.Fingerprint;
 using System;
 using System.Collections.Generic;
@@ -77,9 +78,18 @@ namespace EcsApp
                 // Get application state and use to determine button clock
                 try
                 {
-                    string profileAsBase64String = await _userService.GetProfilePicAsync(user.Email);
-                    byte[] Base64Stream = Convert.FromBase64String(profileAsBase64String);
-                    entryProfilePic.Source = ImageSource.FromStream(() => new MemoryStream(Base64Stream.ToArray()));
+                    var JsonProfile = await _userService.GetProfilePictureUrl(user.Email);
+
+                    if (JsonProfile != null)
+                    {
+                        Dictionary<string, string> objectProfile = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonProfile);
+                        Uri uri = new Uri(String.Format(Constants.EcsProfileUrl + objectProfile["pic"], string.Empty));
+                        entryProfilePic.Source = ImageSource.FromUri(uri);
+                    }
+                    else
+                    {
+                        entryProfilePic.BackgroundColor = Color.AliceBlue;
+                    }
 
                     ClockResponseModel applicationState = await _userService.GetApplicationState(user.Email);
                     if (applicationState != null && applicationState.Succeeded)

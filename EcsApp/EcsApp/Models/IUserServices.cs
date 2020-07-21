@@ -14,6 +14,6 @@ namespace EcsApp.Models
         Task<ClockResponseModel> ClockOutAsync(ClockModel model);
         Task<ClockResponseModel> GetApplicationState(string email);
         Task<List<Clock>> GetAllClocksAsync(string email);
-        Task<string> GetProfilePicAsync(string email);
+        Task<string> GetProfilePictureUrl(string email);
     }
 }
