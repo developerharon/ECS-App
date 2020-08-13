@@ -4,15 +4,9 @@ using Newtonsoft.Json;
 using Plugin.Fingerprint;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace EcsApp
@@ -31,6 +25,7 @@ namespace EcsApp
 
         public ClockPage()
         {
+            _userService = new UserService();
             BindingContext = this;
 
             MainMenuItems = new List<MainMenuItem>()
@@ -48,69 +43,52 @@ namespace EcsApp
         private async void LoadUsersInformation()
         {
             var user = new AuthenticationModel();
-            var refreshToken = await Constants.GetRefreshToken();
-            var userService = new UserService();
+            var applicationState = new ClockResponseModel();
+            string jsonProfilePictureUrl = null;
+            var model = new LoginModel { Email = await Constants.GetEmail(), Password = await Constants.GetPassword() };
+            
             try
             {
-                // Get a new token and an user object from the backend. We assume the since application has been opened the refresh token has not expired. 
-                user = await userService.GetRefreshTokenAsync(refreshToken);
+                user = await _userService.LoginAsync(model);
+                jsonProfilePictureUrl = await _userService.GetProfilePictureUrl(model.Email);
+                applicationState = await _userService.GetApplicationState(model.Email);
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
             }
 
-
             if (user != null && user.IsAuthenticated)
             {
-                // Save the new user's details.
                 Constants.RemoveAll();
-                Constants.SaveUsersDetails(user);
+                Constants.SaveUsersDetails(model);
 
-                // Create the userservice object
-                //_userService = new UserService(await Constants.GetOuthToken());
-                _userService = new UserService();
-
-                // Updates the form with the new values.
                 labelName.Text = user.Name;
                 labelEmail.Text = user.Email;
-
-                // Get application state and use to determine button clock
-                try
+                if (jsonProfilePictureUrl != null)
                 {
-                    var JsonProfile = await _userService.GetProfilePictureUrl(user.Email);
+                    Dictionary<string, string> objectProfile = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonProfilePictureUrl);
+                    Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "images/" + objectProfile["pic"], string.Empty));
+                    entryProfilePic.Source = ImageSource.FromUri(uri);
+                }
+                else
+                {
+                    entryProfilePic.BackgroundColor = Color.AliceBlue;
+                }
 
-                    if (JsonProfile != null)
+                if (applicationState != null && applicationState.Succeeded)
+                {
+                    if (applicationState.IsClockActive)
                     {
-                        Dictionary<string, string> objectProfile = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonProfile);
-                        Uri uri = new Uri(String.Format(Constants.EcsProfileUrl + objectProfile["pic"], string.Empty));
-                        entryProfilePic.Source = ImageSource.FromUri(uri);
+                        buttonClock.Text = "Clock Out";
+                        buttonClock.BackgroundColor = Color.Red;
                     }
                     else
                     {
-                        entryProfilePic.BackgroundColor = Color.AliceBlue;
-                    }
-
-                    ClockResponseModel applicationState = await _userService.GetApplicationState(user.Email);
-                    if (applicationState != null && applicationState.Succeeded)
-                    {
-                        if (applicationState.IsClockActive)
-                        {
-                            buttonClock.Text = "Clock Out";
-                            buttonClock.BackgroundColor = Color.Red;
-                        }
-                        else
-                        {
-                            buttonClock.Text = "Clock In";
-                            buttonClock.BackgroundColor = Color.FromHex("#77D065");
-                        }
+                        buttonClock.Text = "Clock In";
+                        buttonClock.BackgroundColor = Color.FromHex("#77D065");
                     }
                 }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", ex.Message, "OK");
-                }
-
             }
             else
             {
@@ -131,11 +109,7 @@ namespace EcsApp
                 }
                 else if (item.Title.Equals("Logout"))
                 {
-                    if (await Constants.GetRefreshToken() != null)
-                    {
-                        await _userService.RevokeToken(await Constants.GetRefreshToken());
-                        Constants.RemoveAll();
-                    }
+                    Constants.RemoveAll();
                     Navigation.InsertPageBefore(new LoginPage(), this);
                     await Navigation.PopAsync();
                 }

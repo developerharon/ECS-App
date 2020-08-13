@@ -18,16 +18,9 @@ namespace EcsApp.Models
             _client = new HttpClient();
         }
 
-        public UserService(string authenticationToken)
+        public async Task<AuthenticationModel> LoginAsync(LoginModel model)
         {
-            var authenticationHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(authenticationToken));
-            _client = new HttpClient();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer Token", authenticationHeader);
-        }
-
-        public async Task<AuthenticationModel> GetTokenAsync(LoginModel model)
-        {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "login", string.Empty));
+            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "api/user/login", string.Empty));
 
             string json = JsonConvert.SerializeObject(model);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -43,45 +36,9 @@ namespace EcsApp.Models
             return null;
         }
 
-        public async Task<AuthenticationModel> GetRefreshTokenAsync(string refreshToken)
-        {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "refresh-token", string.Empty));
-
-            string json = JsonConvert.SerializeObject(refreshToken);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await _client.PostAsync(uri, content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
-                AuthenticationModel responseModel = JsonConvert.DeserializeObject<AuthenticationModel>(responseContent);
-                return responseModel;
-            }
-            return null;
-        }
-
-        public async Task<object> RevokeToken(string refreshToken)
-        {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "revoke-token", string.Empty));
-
-            string json = JsonConvert.SerializeObject(refreshToken);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await _client.PostAsync(uri, content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
-                object responseModel = JsonConvert.DeserializeObject<object>(responseContent);
-                return responseModel;
-            }
-            return null;
-        }
-
         public async Task<ClockResponseModel> ClockInAsync(ClockModel model)
         {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "clock-in", string.Empty));
+            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "api/user/clock-in", string.Empty));
 
             string json = JsonConvert.SerializeObject(model);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -99,7 +56,7 @@ namespace EcsApp.Models
 
         public async Task<ClockResponseModel> ClockOutAsync(ClockModel model)
         {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "clock-out", string.Empty));
+            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "api/user/clock-out", string.Empty));
 
             string json = JsonConvert.SerializeObject(model);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -117,7 +74,7 @@ namespace EcsApp.Models
 
         public async Task<ClockResponseModel> GetApplicationState(string email)
         {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "application-state", string.Empty));
+            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "api/user/application-state", string.Empty));
 
             string json = JsonConvert.SerializeObject(email);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -135,7 +92,7 @@ namespace EcsApp.Models
 
         public async Task<List<Clock>> GetAllClocksAsync(string email)
         {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "email", string.Empty));
+            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "api/user/get-clocks", string.Empty));
 
             string json = JsonConvert.SerializeObject(email);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -153,7 +110,7 @@ namespace EcsApp.Models
 
         public async Task<string> GetProfilePictureUrl(string email)
         {
-            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "Profile-picture", string.Empty));
+            Uri uri = new Uri(String.Format(Constants.EcsApiUrl + "api/user/profile-picture", string.Empty));
 
             string json = JsonConvert.SerializeObject(email);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
