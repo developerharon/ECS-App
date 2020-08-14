@@ -1,5 +1,4 @@
 ﻿using EcsApp.Models;
-using EcsApp.Models.ApiModels;
 using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
@@ -15,6 +14,7 @@ namespace EcsApp
 
         public ListClocks()
         {
+            _userService = new UserService();
             InitializeComponent();
             this.BindingContext = this;
             LoadEssentials();
@@ -23,7 +23,6 @@ namespace EcsApp
 
         private async void LoadEssentials()
         {
-            _userService = new UserService();
             MyList = new ObservableCollection<ClockViewModel>();
 
             try

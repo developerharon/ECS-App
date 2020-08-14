@@ -12,10 +12,8 @@ namespace EcsApp
         private readonly UserService _userService;
         public LoginPage()
         {
-            InitializeComponent();
             _userService = new UserService();
-
-            // When button for login is clicked, trigger the following event.
+            InitializeComponent();
             buttonLogin.Clicked += OnButtonLoginClicked;
         }
 
@@ -33,7 +31,7 @@ namespace EcsApp
                 try
                 {
                     // Login the user with the backend so we can get an outh-token
-                    var user = await _userService.GetTokenAsync(model);
+                    var user = await _userService.LoginAsync(model);
 
                     if (user == null)
                     {
@@ -44,7 +42,7 @@ namespace EcsApp
                     {
                         // Save the token's to secure storage 
                         Constants.RemoveAll();
-                        Constants.SaveUsersDetails(user);
+                        Constants.SaveUsersDetails(model);
 
                         // Open the main page
                         Navigation.InsertPageBefore(new ClockPage(), this);
