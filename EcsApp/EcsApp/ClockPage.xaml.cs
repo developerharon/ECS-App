@@ -151,7 +151,7 @@ namespace EcsApp
             {
                 clockModel.Email = await Constants.GetEmail();
                 clockModel.ClockLocation = usersLocation;
-                clockModel.ClockTime = DateTime.UtcNow;
+                clockModel.ClockTime = DateTime.UtcNow.AddHours(3);
 
                 if (buttonClock.Text == "Clock In")
                 {
