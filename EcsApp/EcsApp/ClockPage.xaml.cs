@@ -37,7 +37,6 @@ namespace EcsApp
             InitializeComponent();
             LoadUsersInformation();
             buttonClock.Clicked += OnButtonClockClicked;
-            buttonLocation.Clicked += OnButtonLocationClicked;
         }
 
         private async void LoadUsersInformation()
@@ -138,16 +137,6 @@ namespace EcsApp
             else
             {
                 await DisplayAlert("Error", "Your device doesn't support fingerprint authentication", "OK");
-            }
-        }
-
-        private async void OnButtonLocationClicked(object sender, EventArgs args)
-        {
-            var location = await GetUsersLocationAsync();
-
-            if (location != null)
-            {
-                await DisplayAlert("Success", $"User's Location; Latitude: {location.Latitude}; Longitude: {location.Longitude}", "OK");
             }
         }
 

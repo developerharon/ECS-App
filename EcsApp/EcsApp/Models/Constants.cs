@@ -6,7 +6,7 @@ namespace EcsApp.Models
 {
     public static class Constants
     {
-        public static string EcsApiUrl { get; } = "http://192.168.43.129:45457/";
+        public static string EcsApiUrl { get; } = "http://192.168.43.129:45455/";
 
         public async static void SaveUsersDetails(LoginModel model)
         {

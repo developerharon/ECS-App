@@ -40,7 +40,6 @@
                     <Label x:Name="labelEmail" HorizontalOptions="Fill" />
                 </StackLayout>
                 
-                <Button x:Name="buttonLocation" Text="Get Location" TextColor="White"  BackgroundColor="Blue" />
                 <Button x:Name="buttonClock" Text="" TextColor="White" />
             </StackLayout>
         </ContentPage>
